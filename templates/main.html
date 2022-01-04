@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Main</title>
+</head>
+<body>  
+    <center><div class="jumbo">
+        <h2>고려대학교 수강신청 사이트</h2>
+        {% if session['userid'] %}
+            <h4>{{ userid }}님, 안녕하세요.</h4>
+            <button type="button" onclick="location.href='/logout' ">로그 아웃</button>
+            
+        {% else %}
+            <h4>2021학년도 가을학기</h4>
+            <button type="button" onclick="location.href='/register' ">회원가입</button>
+            <button type="button" onclick="location.href='/login' ">로그인</button>
+        {% endif %}
+    </div></center>
+
+</body>
+</html>

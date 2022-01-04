@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Subject Search</title>
+</head>
+<body>  
+{% if session['userid'] %}
+    <h4> {{ userid }}님 <button type="button" onclick="location.href='/logout' ">로그 아웃</button></h4>
+{% endif %}
+<br>
+<legend>
+  <label for="main_title">과목조회</label>
+  <form action="/search", method = "POST">
+    <input type="text" id = "department" value ="학과명">
+    <input type="text" id = "title" value = "교과목명">
+    <input type="submit" id = "send" value = "조회">
+</form>
+</legend>
+<br>
+<table>
+    <thead>
+    <th> 학수번호 </th>
+    <th> 과목명 </th>
+    <th> 학과 </th>
+    <th> 학점 </th>
+    <th> 전공/교양 </th>
+    <th> 필수 </th>
+    </thead>
+
+    <tbody>
+      <form action="/search" method = "POST">
+        {% for sub in subject %}
+        <tr>
+            <td> <p id = 'course_id' name = 'course_id' value = '{{ sub[0] }}'> {{ sub[0] }} </p></td>
+            <td> <p id = 'title' name = 'title' value = '{{ sub[1] }}'> {{ sub[1] }} </p> </td>
+            <td> <p id = 'dept_name' name = 'dept_name' value = '{{ sub[2] }}'> {{ sub[2] }} </p>  </td>
+            <td> <p id = 'credits' name = 'credits' value = '{{ sub[3] }}'> {{ sub[3] }} </p> </td>
+            <td> <p id = 'is_major' name = 'is_major' value = '{{ sub[4] }}'> {{ sub[4] }} </p> </td>
+            <td> <p id = 'is_required' name = 'is_required' value = '{{ sub[5] }}'> {{ sub[5] }} </p></td>     
+            <td> <input type="submit" name = "send" value = "담기"></td>
+        </tr>
+        {% endfor %}
+      </form>
+      
+      
+      
+    </tbody>
+  </table>
+</body>
+</html>

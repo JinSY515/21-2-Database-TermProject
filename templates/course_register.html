@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Subject</title>
+</head>
+<body>  
+{% if session['userid'] %}
+    <h4> {{ userid }}님 <button type="button" onclick="location.href='/logout' ">로그 아웃</button><button type="button" onclick="location.href='/subject' ">과목 조회</button></h4>
+{% endif %}
+<br>
+<table>
+    <caption> <strong>신청된 과목 조회하기</strong>  </caption>
+    <hr>
+    <thead>
+        <th> 학수번호 </th>
+        <th> 분반 </th>
+        <th> 과목명 </th>
+        <th> 학과 </th>
+        <th> 학점 </th>
+        <th> 이수구분 </th>
+        <th> 대면/비대면 </th>
+    </thead>
+
+    <tbody>
+        {% for sub in subject_registered %}
+        <form action="/course_delete" name = "delete_Form" method = "POST">
+          
+          <tr>
+              
+              <td> <input type ="text" id ="course_id" name = "course_id" value = '{{ sub[0] }}' style = 'display: none; '> {{ sub[0] }} </td>
+              <td> <input type ="text" id ="sec_id" name = "sec_id" value = '{{ sub[1] }}'  style = 'display: none; '> {{ sub[1] }} </td>
+              <td> <input type ="text" id = 'title' name = 'title' value = '{{ sub[2] }}'  style = 'display: none; '> {{ sub[2] }}  </td>
+              <td> <input type ="text" id = 'dept_name' name = 'dept_name' value = '{{ sub[3] }}'  style = 'display: none; '> {{ sub[3] }} </td>
+              <td> <input type ="text" id = 'credits' name = 'credits' value = '{{ sub[4] }}'  style = 'display: none; '> {{ sub[4] }}  </td>
+                {% if sub[5] ==True and sub[6] ==True %}
+              <td> <input type ="text"id = 'is_major_required' name = 'is_major_required' value = '전공필수'  style = 'display: none; '> 전공필수</td>
+                {% elif sub[5] == True and sub[6] == False %}
+              <td> <input type ="text"id = 'is_major_required' name = 'is_major_required' value = '전공선택'  style = 'display: none; '> 전공선택</td>
+                {% elif sub[5] == False and sub[6] == True %}
+              <td> <input type ="text"id = 'is_major_required' name = 'is_major_required' value = '필수교양'  style = 'display: none; '> 필수교양</td>
+                {% else %}
+              <td> <input type ="text"id = 'is_major_required' name = 'is_major_required' value = '선택교양'  style = 'display: none; '> 선택교양</td>
+                 {% endif %}    
+
+
+                {% if sub[7] ==True and sub[8] ==True %}
+              <td> <input type ="text"id = 'is_contact' name = 'is_contact' value = '혼합'  style = 'display: none; '> 혼합</td>
+                {% elif sub[7] == True and sub[8] == False %}
+              <td> <input type ="text"id = 'is_contact' name = 'is_contact' value = '대면'  style = 'display: none; '> 대면 </td>
+                {% elif sub[7] == False and sub[8] == True %}
+              <td> <input type ="text"id = 'is_contact' name = 'is_contact' value = '비대면'  style = 'display: none; '> 비대면 </td>
+                {% endif %} 
+              <input type="text" id = "semester" name = "semester" value = '{{ sub[10] }}'  style = 'display: none; '>
+              <input type="text" id = "year" name ="year" value = '{{ sub[9] }}'  style = 'display: none; '>
+              
+              <td> <input type="submit" name = "send" value = "삭제"></td>
+          </tr>
+          
+        </form>
+        {% endfor %}
+        
+        
+      </tbody>
+  </table>
+</body>
+</html>

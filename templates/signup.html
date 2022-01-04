@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+
+	{% if session['logged_in'] %}
+		<p>가입 되어 있는 정보입니다.. 뒤로 가기를 눌러 주세요. </p>
+	{% else %}
+	<center><div>
+		<h2>Register</h2>
+		<form action="/register/" method="POST">
+		  <input type="username" name="username" placeholder="Username"><br>
+		  <input type="password" name="password" placeholder="Password"><br>
+		  <br><br>
+		  <input type="submit" value="회원가입">
+		</form>
+	</div></center>
+	{% endif %}
+	{% endblock %}
+</html>

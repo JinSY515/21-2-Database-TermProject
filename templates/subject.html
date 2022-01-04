@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Subject</title>
+</head>
+<body>  
+{% if session['userid'] %}
+    <h4> {{ userid }}님 <button type="button" onclick="location.href='/logout' ">로그 아웃</button><button type="button" onclick="location.href='/course_register' ">신청 내역</button></h4>
+{% endif %}
+<br>
+
+
+<legend>
+  <label for="main_title">과목조회</label>
+  <form action="/subject", method = "POST">
+    <input type="text" name = "year_fixed" id = "year_fixed" value = 2021 size = 2 readonly >
+    <select name="semester_sel" id="semester_sel">
+      <option value="Spring">1학기</option>
+      <option value="Summer">여름학기</option>
+      <option value="Fall" selected>2학기</option>
+      <option value="Winter">겨울학기</option>
+    </select>
+    <select name="major" id="major">
+      <option value="true">전공</option>
+      <option value="false">교양</option>
+    </select>
+    <select name="department" id="department">
+      <option value="학과명" selected>학과명</option>
+      {% for univ in univ_table %}
+        <optgroup label = "{{ univ[0] }}"> 
+          {% for dept in dept_table %}
+            {% if univ[0] == dept[0] %}
+            <option value="{{ dept[1] }}"> {{ dept[1] }} </option>
+            {% endif %}
+          {% endfor %}
+        </optgroup>
+      {% endfor %}
+    </select>
+    <input type="text" id = "title" name = "title" value = "교과목명">
+    <input type="submit" id = "send" value = "조회">
+    <button type = "reset" >초기화</button>
+</form>
+</legend>
+<br>
+
+<table>
+    <thead>
+    <th> 학수번호 </th>
+    <th> 분반 </th>
+    <th> 과목명 </th>
+    <th> 학과 </th>
+    <th> 학점 </th>
+    <th> 이수구분 </th>
+    </thead>
+
+    <tbody>
+      {% for sub in subject %}
+      <form action="/course_register" name = "register_Form" method = "POST">
+        
+        <tr>
+            
+            <td> <input type ="text" id ="course_id" name = "course_id" value = '{{ sub[0] }}' style = 'display: none; '> {{ sub[0] }} </td>
+            <td> <input type ="text" id ="sec_id" name = "sec_id" value = '{{ sub[6] }}'  style = 'display: none; '> {{ sub[6] }} </td>
+            <td> <input type ="text" id = 'title' name = 'title' value = '{{ sub[1] }}'  style = 'display: none; '> {{ sub[1] }}  </td>
+            <td> <input type ="text" id = 'dept_name' name = 'dept_name' value = '{{ sub[2] }}'  style = 'display: none; '> {{ sub[2] }} </td>
+            <td> <input type ="text" id = 'credits' name = 'credits' value = '{{ sub[3] }}'  style = 'display: none; '> {{ sub[3] }}  </td>
+            {% if sub[4] ==True and sub[5] ==True %}
+              <td> <input type ="text"id = 'is_major_required' name = 'is_major_required' value = '전공필수'  style = 'display: none; '> 전공필수</td>
+            {% elif sub[4] == True and sub[5] == False %}
+              <td> <input type ="text"id = 'is_major_required' name = 'is_major_required' value = '전공선택'  style = 'display: none; '> 전공선택</td>
+            {% elif sub[4] == False and sub[5] == True %}
+              <td> <input type ="text"id = 'is_major_required' name = 'is_major_required' value = '필수교양'  style = 'display: none; '> 필수교양</td>
+            {% else %}
+              <td> <input type ="text"id = 'is_major_required' name = 'is_major_required' value = '선택교양'  style = 'display: none; '> 선택교양</td>
+            {% endif %}    
+            <input type="text" id = "semester" name = "semester" value = '{{ sub[7] }}'  style = 'display: none; '>
+              <input type="text" id = "year" name ="year" value = '{{ sub[8] }}'  style = 'display: none; '>
+            <td> <input type="submit" name = "send" value = "담기"></td>
+        </tr>
+        
+      </form>
+      {% endfor %}
+      
+      
+    </tbody>
+  </table>
+</body>
+</html>
